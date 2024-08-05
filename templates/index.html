@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Recipe App</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <!--    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">-->
+</head>
+
+<body>
+    <h1>Recipe App</h1>
+    <header class="header">
+        <a href="/home" class="home-button">Home</a>
+        <nav class="navbar">
+            <form method="POST" action="/">
+                <div class="box">
+                    <input type="text" name="search_query" placeholder="Search for recipes">
+                    <input type="submit" value="Search">
+                </div>
+            </form>
+        </nav>
+        <a href="templates\login.html">Login</a>
+    </header>
+
+    <!-- Check of recipes are available-->
+    {% if recipes%}
+    <h2 class="results">Results for "{{ search_query }}"</h2>
+    <ul>
+        {% for recipe in recipes %}
+        <li>
+            <h3 class="recipe-title">{{ recipe.title }}</h3>
+            {% if recipe.image %}
+            <img src="{{ recipe.image }}" alt="{{ recipe.title }}">
+            {% endif %}
+            <a href="{{ url_for('view_recipe', recipe_id=recipe.id, search_query=search_query) }}">View</a>
+        </li>
+        {% endfor %}
+    </ul>
+    <!-- If no recipes are found -->
+    {% else %}
+    <p class="norecipes">No recipes found.</p>
+    {% endif %}
+</body>
+
+</html>
